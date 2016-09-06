@@ -77,15 +77,15 @@ int execute_kmp_search(string pat, string txt) {
 
 
 int main() {
-    ifstream fin("text.txt");
+    ifstream fin("file.txt");
 
     int line=1,words=1,para=1; //will not count first word and last line so initial value is 1
-    char ch;
-    string word;
-    string text = "";
-    int searched_word_count;
-    float probability;
-    int gate = 1;
+    char ch;    // for searching spaces and /n
+    string word;    //
+    string text = "";   //for storing whole test file 
+    int searched_word_count;    //for counting no of words found
+    float probability;  // storing probability
+    int gate = 1;   //infinite loop
     while(gate == 1) {
         cout<<endl;
     	cout<<endl;
@@ -94,20 +94,20 @@ int main() {
     	cout<<"Type 3 - probability first do dictionary search and you will get an option for probaility."<<endl;
     	int input;
     	cin>>input;
-    	fin.seekg(0);
+    	fin.seekg(0);  //bring file pointer to the start of the file
         while(fin) {
-        	fin.get(ch);
+        	fin.get(ch);   //getting character and comparing it to " " and /n
             text += ch;
             if(ch==' ' ||ch=='\n') {
-                words++;
+                words++;    //counting no of words
             }
             if(ch == '\n') {
                 fin.get(ch);
                 if(ch == '\n') {
-                    para++;
+                    para++;    // counting paras
                     line++;
                 }
-                line++;
+                line++;    //counting lines
             }
           }
     	switch(input) {
@@ -118,14 +118,14 @@ int main() {
 				cout<<"Enter string to search"<<endl;
     			cin>>word;
     			cout<<endl;
-    			searched_word_count = execute_kmp_search(word, text);
+    			searched_word_count = execute_kmp_search(word, text);    //calling kmp search function
 				break;
             case 3:
 				cout<<"Enter string to search"<<endl;
     			cin>>word;
     			cout<<endl;
     			searched_word_count = execute_kmp_search(word, text);
-    			probability = (float)searched_word_count / (float)words;
+    			probability = (float)searched_word_count / (float)words;    //calculating the probability
     			cout<<"The number of words found: "<<searched_word_count<<endl;
     			cout<< "The Total number of words: "<< words<<endl<<endl;
     			cout<<"The probability of words containing "<<word<<" is - "<<probability<<endl;
