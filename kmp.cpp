@@ -5,18 +5,18 @@
 #include <stdlib.h>
 using namespace std;
 
-void get_lps(string pat, int M, int *lps) {
+void get_lps(string substr, int substr_length, int *lps) {
     int len = 0;
-    int i;
+    int index;
 
     lps[0] = 0;
-    i = 1;
+    index = 1;
 
-    while (i < M) {
-        if (pat[i] == pat[len]) {
+    while (index < substr_length) {
+        if (substr[index] == substr[len]) {
         	len++;
             lps[i] = len;
-            i++;
+            index++;
         }
         else {
         	if (len != 0) {
@@ -24,52 +24,46 @@ void get_lps(string pat, int M, int *lps) {
         	}
         	else {
             	lps[i] = 0;
-            	i++;
+            	index++;
             }
        }
     }
 }
 
-int execute_kmp_search(string pat, string txt) {
-    int M = pat.length();
-    int N = txt.length();
-
-    // create lps[] that will hold the longest prefix suffix
-    // values for pattern
-    int lps[M];
-    int j  = 0;  // index for pat[]
+int execute_kmp_search(string substr, string text) {
+    int lps[substr.length()];
+    int substr_index  = 0;
     int counter = 0;
-    // Preprocess the pattern (calculate lps[] array)
-    get_lps(pat, M, lps);
+    get_lps(substr, substr.length(), lps);
 
-    istringstream splitting(txt);
+    istringstream splitting(text);
 
-    int i = 0;
+    int text_index = 0;
     do {
         string word;
         splitting >> word;
-        while (i < word.length()) {
-        	if (pat[j] == word[i]) {
-            	j++;
-                i++;
+        while (text_index < word.length()) {
+        	if (substr[substr_index] == word[text_index]) {
+            	substr_index++;
+                text_index++;
             }
 
-            if (j == M) {
-            	j = lps[j-1];
+            if (substr_index == word.length()) {
+            	substr_index = lps[substr_index-1];
 	            cout<<word<<endl;
 	            counter++;
 	            break;
             }
 
-            else if (i < N && pat[j] != word[i]) {
-	            if (j != 0)
-	             j = lps[j-1];
+            else if (text_index < word.length() && substr[substr_index] != word[text_index]) {
+	            if (substr_index != 0)
+	            	substr_index = lps[substr_index-1];
 	            else
-	             i++;
+	            	text_index++;
             }
         }
-        i = 0;
-        j = 0;
+        text_index = 0;
+        substr_index = 0;
     } while(splitting);
     cout<<endl;
     return counter;
