@@ -15,7 +15,7 @@ void get_lps(string substr, int substr_length, int *lps) {
     while (index < substr_length) {
         if (substr[index] == substr[len]) {
         	len++;
-            lps[i] = len;
+            lps[index] = len;
             index++;
         }
         else {
