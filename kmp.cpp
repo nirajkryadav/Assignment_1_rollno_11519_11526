@@ -72,7 +72,7 @@ int execute_kmp_search(string substr, string text) {
                 text_cnt++;
             }
 
-            if (substr_cnt == word.length()) { //print word if substr match
+            if (substr_cnt == substr.length()) { //print word if substr match
             	substr_cnt = lps[substr_cnt-1];
 	            cout<<word<<endl;
 	            word_count++;
